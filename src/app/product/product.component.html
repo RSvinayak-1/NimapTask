@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-sm-2 col-md-2"></div>
+  <div class="col-sm-8 col-md-8" style="margin-top: 5%;border:1px solid black;">
+    <h3 class="text-center" style="color:red;">ProductMaster</h3>
+    <div>
+      <button class="btn btn-primary" (click)="addProduct()">Add Product</button>
+    </div>
+    <br>
+    <div *ngIf="add == 1">
+      <table class="col-sm-5 col-md-5 col-xs-5 table-bordered table">
+        <tbody>
+          <tr>
+            <td>
+              <input type="text" placeholder="productName" [(ngModel)]='productName'>
+            </td>
+            <td>
+              <input type="number" placeholder="productId" [(ngModel)]="productId">
+            </td>
+            <td>
+              <select [(ngModel)]="categoryName" (change)="selectedCategory(categoryName)" style="width:100px;">
+                <option value="" style="display:none;"></option>
+                <option *ngFor="let data of categoryList" value="{{data.categoryName}}">{{data.categoryName}}</option>
+              </select>
+            </td>
+            <td>
+              <button (click)="saveProduct(productName,productId,categoryName)">save</button>
+            </td>
+        </tbody>
+      </table>
+    </div>
+    <br>
+
+    <div *ngIf="activatePTable == 1">
+      <table class="table-bordered table">
+        <thead>
+          <tr>
+            <th>Sl.No</th>
+            <th>ProductName</th>
+            <th>ProductId</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of productResult | paginate: { itemsPerPage: 5, currentPage: p};let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{data.productName}}</td>
+            <td>{{data.productId}}</td>
+            <td>
+              <button class="btn btn-info" (click)="editProduct(data,i)" data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-info" (click)="deletePro(data,i)">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="activatePTable == 1">
+      <pagination-controls (pageChange)="p=$event"></pagination-controls>
+    </div>
+    <br>
+    <br>
+  </div>
+
+  <div class="col-sm-2 col-md-2"></div>
+
+</div>
+<!-- modal code below -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Product Data</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label>ProductName :</label>
+          <input type="text" [(ngModel)]="ProductName">
+        </div>
+        <br>
+        <div>
+          <label>ProductId :</label>
+          <input type="number" [(ngModel)]="ProductId">
+        </div>
+        <br>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <button ype="button" class="btn btn-success" (click)="updatePro(ProductName,ProductId)" data-dismiss="modal">Update</button>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

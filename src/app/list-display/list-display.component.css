@@ -1,0 +1,11 @@
+.myTable{
+    border:1px solid black;
+    width:100%;
+   
+}
+
+tr,th{
+    border:1px solid black;
+    text-align: center;
+    line-height: 30px;
+}

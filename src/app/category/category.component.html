@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-sm-2 col-md-2"></div>
+  <div class="col-sm-8 col-md-8" style="margin-top: 5%;border:1px solid black;">
+    <h3 class="text-center" style="color:red;">CategoryMaster</h3>
+    <div>
+      <button class="btn btn-primary" (click)="addCategory()">Add Category</button>
+    </div>
+    <br>
+    <div *ngIf="add == 1">
+      <table class="col-sm-5 col-md-5 col-xs-5 table-bordered table">
+        <tbody>
+          <tr>
+            <td>
+              <input type="text" placeholder="categoryName" [(ngModel)]='CategoryName'>
+            </td>
+            <td>
+              <input type="number" placeholder="categoryId" [(ngModel)]="CategoryId">
+            </td>
+            <td>
+              <input type="Date" [(ngModel)]="date">
+            </td>
+            <td>
+              <button (click)="saveExpense(CategoryName,CategoryId,date)">save</button>
+            </td>
+        </tbody>
+      </table>
+    </div>
+    <br>
+
+    <div>
+      <table class="table-bordered table" *ngIf="activeTable == 1">
+        <thead>
+          <tr>
+            <th>Sl.No</th>
+            <th>CategoryName</th>
+            <th>CategoryId</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of fetchedData | paginate: { itemsPerPage: 5, currentPage: p};let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{data.categoryName}}</td>
+            <td>{{data.categoryId}}</td>
+            <td>
+              <button class="btn btn-info" (click)="editData(data,i)" data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-info" (click)="Delete(data,i)">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="activeTable == 1">
+      <pagination-controls (pageChange)="p=$event"></pagination-controls>
+    </div>
+    <br>
+    <br>
+  </div>
+
+  <div class="col-sm-2 col-md-2"></div>
+
+</div>
+<!-- modal code below -->
+<div class="modal" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Category Data</h4>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label>CategoryName :</label>
+          <input type="text" [(ngModel)]="CategoryName">
+        </div>
+        <br>
+        <div>
+          <label>CategoryId :</label>
+          <input type="number" [(ngModel)]="CategoryId">
+        </div>
+        <br>
+        <div>
+          <label>CreatedDate :</label>
+          <input type="Date" [(ngModel)]="date">
+        </div>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <button ype="button" class="btn btn-success" (click)="updateCat(CategoryName,CategoryId,date)" data-dismiss="modal">Update</button>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
